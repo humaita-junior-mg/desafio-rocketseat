@@ -1,41 +1,19 @@
 const express = require('express');
+const app = express();
+const todoRouter = require('./routes/todoRouter')
+const userRouter = require('./routes/userRouter')
 const cors = require('cors');
 
-// const { v4: uuidv4 } = require('uuid');
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-// const users = [];
-
-function checksExistsUserAccount(request, response, next) {
-  // Complete aqui
+const whitelist = {
+    origin: 'http://localhost:3000'
 }
 
-app.post('/users', (request, response) => {
-  // Complete aqui
-});
+app.use(cors(whitelist));
 
-app.get('/todos', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
-});
+app.use(express.json())
 
-app.post('/todos', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
-});
+app.use('/users', userRouter)
 
-app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
-});
+app.use('/', todoRouter)
 
-app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
-});
-
-app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
-});
-
-module.exports = app;
+module.exports = app
